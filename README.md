@@ -1,2 +1,2 @@
 # DevOps_Training
-## 1. Linux File System
+## 1. Linux FileSystem
