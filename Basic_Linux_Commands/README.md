@@ -74,6 +74,7 @@
 - `ping google.com` - Checks network connectivity by sending test packets to the specified address.
 - `curl http://example.com` - Fetches webpage content and displays it in the terminal.
 - `ip addr` - Displays network interface details, including IP addresses and status.
+- `sudo lsof -i :8080` - To check which process is using a specific port (e.g., port 8080) lsof (List Open Files).
 - `netstat -tuln` - Lists active network connections and open ports.
 
 ---
