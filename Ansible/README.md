@@ -104,8 +104,8 @@ An **Ansible Playbook** automates the deployment process. Below is the YAML scri
         restart_policy: always
         env:
           POSTGRES_USER: "postgres"
-          POSTGRES_PASSWORD: "funkY!123"
-          POSTGRES_DB: "docker_trials"
+          POSTGRES_PASSWORD: "db_password"
+          POSTGRES_DB: "db_name"
         ports:
           - "5432:5432"
 
@@ -134,9 +134,9 @@ An **Ansible Playbook** automates the deployment process. Below is the YAML scri
         ports:
           - "8080:8080"
         env:
-          SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-container:5432/docker_trials"
+          SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-container:5432/db_name"
           SPRING_DATASOURCE_USERNAME: "postgres"
-          SPRING_DATASOURCE_PASSWORD: "funkY!123"
+          SPRING_DATASOURCE_PASSWORD: "db_password"
 ```
 
 ---
@@ -160,7 +160,7 @@ CMD ["java", "-jar", "app.jar"]
 Edit **`/etc/ansible/hosts`** to add the remote system:
 ```ini
 [remote]
-remote-ip-address ansible_user=username ansible_ssh_private_key_file=~/.ssh/id_rsa
+remote-ip-address ansible_user=username ansible_ssh_private_key_file=~/.ssh/private_key_file
 ```
 
 ### **2. Execute the Playbook**
