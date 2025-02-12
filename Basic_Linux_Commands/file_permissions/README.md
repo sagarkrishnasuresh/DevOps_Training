@@ -43,6 +43,13 @@ chmod o-rw filename
 - `o-rw` → Removes **read (`r`) and write (`w`) permissions** for **others (`o`)**.
 
 ### 4. Set Specific Permissions Using Numbers
+
+**In Linux, file permissions are represented using numbers (octal format) for read (r), write (w), and execute (x) permissions.**
+- `r` :  4
+- `w` :  2
+- `x` :  1
+
+
 **Command:**
 ```bash
 chmod 755 filename
