@@ -58,6 +58,24 @@ chmod 755 filename
     - Group: **Read, Execute** (`r-x` → `5`).
     - Others: **Read, Execute** (`r-x` → `5`).
 
+### 5. Add a User to a Group
+**Command:**
+```bash
+sudo usermod -aG groupname username
+```
+**Explanation:**
+- `sudo` → Runs the command with superuser privileges.
+- `usermod` → Modifies a user account.
+- `-aG` → Appends the user to the specified group **without removing existing memberships**.
+- `groupname` → Replace with the actual group name.
+- `username` → Replace with the actual username.
+
+### Example:
+To add user **john** to the **docker** group:
+```bash
+sudo usermod -aG docker john
+```
+
 ## Summary
 | Command | Description |
 |---------|------------|
@@ -65,4 +83,5 @@ chmod 755 filename
 | `chmod u+x filename` | Gives **execute** permission to the owner. |
 | `chmod o-rw filename` | Removes **read/write** permissions for others. |
 | `chmod 755 filename` | Sets permission using **numeric mode**. |
+| `sudo usermod -aG groupname username` | Adds a user to a specified group. |
 
