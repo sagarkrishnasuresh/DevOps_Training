@@ -24,7 +24,7 @@
     restart_policy: always
     env:
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "funkY!123"
+      POSTGRES_PASSWORD: "db_password"
       POSTGRES_DB: "docker_trials"
     ports:
       - "5432:5432"
