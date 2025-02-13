@@ -1,0 +1,58 @@
+---
+# Task 6: Ensure target directory exists
+- name: Create project directory if not exists
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+    mode: '0755'
+
+# Task 7: Copy Dockerfile to Remote Server
+- name: Copy Dockerfile to remote machine
+  copy:
+    src: "/home/ssagarkrishna/Desktop/dockertrials/Dockerfile"
+    dest: "{{ project_dir }}/Dockerfile"
+    mode: '0644'
+
+# Task 8: Copy JAR file to Remote Server
+- name: Copy JAR file to remote machine
+  copy:
+    src: "/home/ssagarkrishna/Desktop/dockertrials/target/{{ jar_file }}"
+    dest: "{{ project_dir }}/app.jar"  # Copy as app.jar
+    mode: '0755'
+
+# Task 11: Remove Existing Spring Boot Container (if exists)
+- name: Remove existing Spring Boot container (if exists)
+  docker_container:
+    name: springboot-container
+    state: absent
+  ignore_errors: yes
+
+# Task 12: Build Spring Boot Docker Image (Explicit Dockerfile Path)
+- name: Build Spring Boot Docker Image
+  docker_image:
+    name: springboot-app
+    build:
+      path: "{{ project_dir }}"
+      dockerfile: "{{ project_dir }}/Dockerfile"  # Explicit Dockerfile path
+    source: build
+  notify: 
+    - Start Spring Boot Container
+    - Stop Spring Boot Container
+# Task 13: Run Spring Boot Container
+- name: Start Spring Boot Container
+  docker_container:
+    name: springboot-container
+    image: springboot-app
+    state: started
+    restart_policy: always
+    links:
+      - postgres-container
+    ports:
+      - "8080:8080"
+    env:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-container:5432/docker_trials"
+      SPRING_DATASOURCE_USERNAME: "postgres"
+      SPRING_DATASOURCE_PASSWORD: "funkY!123"
+  notify:
+     - Start Spring Boot Container
+     - Stop Spring Boot Container

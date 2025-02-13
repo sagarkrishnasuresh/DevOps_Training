@@ -1,0 +1,12 @@
+---
+- name: Deploy Spring Boot and PostgreSQL Containers (Without Docker Compose)
+  hosts: remote
+  become: yes  # Run as sudo/root
+  vars:
+    project_dir: /home/ssagarkrishna/Desktop/dockertrials
+    jar_file: dockertrials-0.0.1-SNAPSHOT.jar  # Corrected filename
+
+  roles:
+    - environment_setup
+    - database_container_setup
+    - springboot_app
