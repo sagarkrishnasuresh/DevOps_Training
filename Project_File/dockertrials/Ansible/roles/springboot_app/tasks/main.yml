@@ -52,7 +52,7 @@
     env:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-container:5432/docker_trials"
       SPRING_DATASOURCE_USERNAME: "postgres"
-      SPRING_DATASOURCE_PASSWORD: "funkY!123"
+      SPRING_DATASOURCE_PASSWORD: "db_password"
   notify:
      - Start Spring Boot Container
      - Stop Spring Boot Container
