@@ -107,7 +107,7 @@ ip a
 | `lscpu` | CPU information. |
 | `free -h` | Memory (RAM) usage. |
 | `df -h` | Disk space usage. |
-| `lspci | grep VGA` | GPU information. |
+| `lspci` | grep VGA` | GPU information. |
 | `cat /etc/os-release` | Operating system information. |
 | `ip a` | Network information. |
 
