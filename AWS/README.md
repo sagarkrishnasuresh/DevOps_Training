@@ -1,4 +1,4 @@
-# AWS Basics - DevOps Training
+# AWS Basics
 
 ## Introduction
 Amazon Web Services (AWS) is a comprehensive cloud computing platform that offers a wide range of services for computing, storage, networking, security, and more. As part of DevOps training, understanding AWS services like VPC, EC2, ECR, S3, and others is crucial for efficient cloud-based application deployment and management.
@@ -65,7 +65,6 @@ Amazon Web Services (AWS) is a comprehensive cloud computing platform that offer
     - Scaling based on demand.
     - Secure access with IAM and VPC integration.
 
-    
 ### 8. **Elastic Load Balancer (ELB)**
 - Distributes incoming traffic across multiple EC2 instances.
 - Types of Load Balancers:
