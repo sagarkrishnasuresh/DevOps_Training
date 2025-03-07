@@ -65,7 +65,6 @@ Amazon Web Services (AWS) is a comprehensive cloud computing platform that offer
     - Scaling based on demand.
     - Secure access with IAM and VPC integration.
 
-
 ### 8. **Elastic Load Balancer (ELB)**
 - Distributes incoming traffic across multiple EC2 instances.
 - Types of Load Balancers:
