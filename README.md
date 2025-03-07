@@ -7,6 +7,7 @@
 ## 5. Nginx
 ## 6. Jenkins
 ## 7. Minikube (Kubernetes)
+## 8. AWS
 
 ### Checkout complete project deployment : 
 [sample project](https://github.com/sagarkrishnasuresh/sample_project)
