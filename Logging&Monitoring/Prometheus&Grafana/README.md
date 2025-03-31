@@ -15,6 +15,47 @@ Ensure the following tools are installed on your system:
 
 ---
 
+## 🛠️ Installation Instructions
+
+### 🔹 Install Prometheus (Ubuntu/Debian)
+
+```bash
+sudo apt update
+sudo apt install prometheus
+```
+
+Or download from the official site: https://prometheus.io/download/
+
+---
+
+### 🔹 Install Grafana (Ubuntu/Debian)
+
+```bash
+# Install dependencies
+sudo apt install -y software-properties-common
+
+# Add Grafana APT repository
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+
+# Add Grafana GPG key
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+
+# Update and install
+sudo apt update
+sudo apt install grafana
+```
+
+Start Grafana:
+
+```bash
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server
+```
+
+Or download from: https://grafana.com/grafana/download
+
+---
+
 ## 📁 Folder Structure
 
 ```bash
