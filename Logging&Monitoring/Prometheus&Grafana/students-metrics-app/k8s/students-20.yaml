@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: students-20
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: students
+      version: "20"
+  template:
+    metadata:
+      labels:
+        app: students
+        version: "20"
+    spec:
+      containers:
+        - name: students-app
+          image: students-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: students.count
+              value: "20"
+            - name: pod.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: students-20-service
+spec:
+  selector:
+    app: students
+    version: "20"
+  ports:
+    - port: 8080
+      targetPort: 8080
