@@ -26,7 +26,6 @@ echo -e "\n${BLUE}📂 Creating namespace 'monitoring' if not exists...${NC}"
 kubectl get ns monitoring &> /dev/null || kubectl create namespace monitoring
 
 echo -e "\n${BLUE}📡 Installing Prometheus...${NC}"
-
 if helm list -n monitoring | grep -q prometheus; then
   echo -e "${YELLOW}⚠️ Prometheus is already installed in 'monitoring' namespace.${NC}"
 else
@@ -35,7 +34,6 @@ else
 fi
 
 echo -e "\n${BLUE}📊 Installing Grafana...${NC}"
-
 if helm list -n monitoring | grep -q grafana; then
   echo -e "${YELLOW}⚠️ Grafana is already installed in 'monitoring' namespace.${NC}"
 else
@@ -49,7 +47,6 @@ helm repo update > /dev/null
 rm -rf ~/.cache/helm
 
 echo -e "\n${BLUE}🧼 Cleaning up Docker residue...${NC}"
-
 echo -e "${YELLOW}🧊 Removing exited containers...${NC}"
 docker container prune -f
 
@@ -67,20 +64,8 @@ docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | \
   xargs -r docker rmi -f
 
 echo -e "${GREEN}✅ Docker cleanup complete.${NC}"
-
 echo -e "${GREEN}✅ System is tidy!${NC}\n"
-
 
 echo -e "\n${BLUE}🔑 Getting Grafana admin password...${NC}"
 GRAFANA_PASSWORD=$(kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 -d)
 echo -e "${GREEN}🔐 Grafana Password: $GRAFANA_PASSWORD${NC}"
-
-echo -e "\n${BLUE}🌐 Use these commands in another terminal to open Prometheus and Grafana UIs:${NC}"
-echo -e "${YELLOW}Prometheus:${NC} ${GREEN}kubectl port-forward svc/prometheus-server -n monitoring 9090:80${NC}"
-echo -e "${YELLOW}Grafana:   ${NC} ${GREEN}kubectl port-forward svc/grafana -n monitoring 3000:80${NC}"
-
-echo -e "\n${BLUE}🔗 Open in your browser:${NC}"
-echo -e "${GREEN}👉 http://localhost:9090   # Prometheus${NC}"
-echo -e "${GREEN}👉 http://localhost:3000   # Grafana${NC}"
-
-echo -e "\n${YELLOW}📘 Grafana login → Username: admin | Password: $GRAFANA_PASSWORD${NC}\n"
