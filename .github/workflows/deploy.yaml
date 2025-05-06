@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t sample-app:${{ github.event.inputs.image_tag }} .
+          docker build -t sample-app:${{ github.event.inputs.image_tag }} ./GitHub_Actions/sample-app
 
       - name: Update image tag in deployment.yaml
         run: |
