@@ -10,25 +10,18 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted  # Your local machine will act as runner
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Use Minikube Docker daemon
-        run: |
-          eval $(minikube docker-env)
+        run: eval $(minikube docker-env)
 
       - name: Build Docker Image
-        run: |
-          docker build -t sample-app:${{ github.event.inputs.image_tag }} ./GitHub_Actions/sample-app
+        run: docker build -t sample-app:${{ inputs.image_tag }} ./GitHub_Actions/sample-app
 
-      - name: Update image tag in deployment.yaml
+      - name: Deploy to Minikube
         run: |
-          sed "s|sample-app:latest|sample-app:${{ github.event.inputs.image_tag }}|" k8s/deployment.yaml > k8s/deployment-updated.yaml
-
-      - name: Apply Kubernetes Manifests
-        run: |
-          kubectl apply -f k8s/deployment-updated.yaml
-          kubectl apply -f k8s/service.yaml
-          kubectl rollout status deployment/sample-app
+          kubectl apply -f ./GitHub_Actions/sample-app/k8s/deployment.yaml
+          kubectl apply -f ./GitHub_Actions/sample-app/k8s/service.yaml
