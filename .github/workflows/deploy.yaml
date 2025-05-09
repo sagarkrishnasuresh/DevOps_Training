@@ -19,9 +19,9 @@ jobs:
         run: eval $(minikube docker-env)
 
       - name: Build Docker Image
-        run: docker build -t sample-app:${{ inputs.image_tag }} ./GitHub_Actions/sample-app
+        run: docker build -t sample-app:${{ inputs.image_tag }} ./GitHub_Actions/Local_minikube_deployment/sample-app
 
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f ./GitHub_Actions/sample-app/k8s/deployment.yaml
-          kubectl apply -f ./GitHub_Actions/sample-app/k8s/service.yaml
+          kubectl apply -f ./GitHub_Actions/Local_minikube_deployment/sample-app/k8s/deployment.yaml
+          kubectl apply -f ./GitHub_Actions/Local_minikube_deployment/sample-app/k8s/service.yaml
