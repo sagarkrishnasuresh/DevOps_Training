@@ -3,18 +3,7 @@
 This guide outlines the necessary steps and configuration to enable code coverage in a Java + Spring Boot application using **JaCoCo** with **Maven**.
 
 ---
-
-## 1. Overview
-
-* **Tool Used:** JaCoCo (Java Code Coverage)
-* **Build Tool:** Maven
-* **Application Type:** Spring Boot (Java 17+)
-
-JaCoCo helps track which parts of the application code are covered during unit tests, and generates detailed reports in HTML or XML format.
-
----
-
-## 2. Dependencies
+## 1. Dependencies
 
 No separate dependencies are required in the `<dependencies>` section for JaCoCo.
 
@@ -36,7 +25,7 @@ However, make sure the following test dependencies are present:
 
 ---
 
-## 3. Add JaCoCo Plugin
+## 2. Add JaCoCo Plugin
 
 Insert the following plugin configuration into the `<build><plugins>` section of your `pom.xml`:
 
@@ -93,35 +82,5 @@ Insert the following plugin configuration into the `<build><plugins>` section of
 
 ---
 
-## 4. Running and Viewing Reports
 
-Run the following Maven commands to generate the coverage report:
 
-```bash
-mvn clean test
-```
-
-Open the generated HTML report:
-
-```
-target/site/jacoco/index.html
-```
-
-You will find a detailed breakdown of code coverage by class, method, and line.
-
----
-
-## 5. Additional Notes
-
-* The `rules` section defines minimum acceptable code coverage ratios.
-* To integrate with **SonarQube**, configure JaCoCo to generate `jacoco.xml` using the `report-aggregate` or `report` goal with XML output.
-
----
-
-For any questions or support, reach out to the DevOps/Backend team.
-
----
-
-**Prepared For:** Backend Developers
-
-**Purpose:** Guide to enable JaCoCo-based code coverage tracking for Spring Boot services.
