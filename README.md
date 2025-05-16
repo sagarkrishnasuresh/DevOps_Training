@@ -6,8 +6,10 @@
 ## 4. Ansible
 ## 5. Nginx
 ## 6. Jenkins
-## 7. Minikube (Kubernetes)
+## 7. Kubernetes
 ## 8. AWS
+## 9. SonarQube
+## 10. Logging and Monitoring
 
 ### Checkout complete project deployment : 
 [sample project](https://github.com/sagarkrishnasuresh/sample_project)

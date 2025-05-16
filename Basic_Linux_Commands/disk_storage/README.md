@@ -70,3 +70,8 @@ find ~ -type f -size +1G -delete
 | `find ~ -type f -size +1G` | Finds files larger than 1GB. |
 | `find ~ -type f -size +1G -delete` | Deletes files larger than 1GB (use with caution). |
 
+## Check the disk usage of specific directory at depth of 1:
+**Command:**
+```bash
+sudo du -h --max-depth=1 <path-of-directory> | sort -hr
+```
