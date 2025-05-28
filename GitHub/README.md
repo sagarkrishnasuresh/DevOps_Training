@@ -1,6 +1,6 @@
 # Git & GitHub Basics
 
-This README provides a quick reference guide for essential Git and GitHub commands. It is intended for beginners or as a quick refresher.
+Here is a quick reference guide for essential Git and GitHub commands. It is intended for beginners or as a quick refresher.
 
 ---
 
