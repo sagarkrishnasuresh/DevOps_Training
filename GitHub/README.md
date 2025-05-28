@@ -168,6 +168,16 @@ Removes untracked files.
 
 ---
 
+### Update Local Git Remote URLs 
+
+```bash
+git remote set-url origin https://github.com/etravelmate-devops/iter-devops.git 
+```
+Updates the remote git url for the current repo in local.
+
+---
+
+
 ## 🔁 Common Tips
 
 * Always pull before pushing changes.
