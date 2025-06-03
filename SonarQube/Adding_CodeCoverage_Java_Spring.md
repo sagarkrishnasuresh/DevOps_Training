@@ -6,147 +6,201 @@ This guide explains how to configure **JaCoCo** to measure code coverage in a Ja
 
 ## 📦 1. Required Dependencies
 
-Make sure the following **JUnit** test dependencies are added under the `<dependencies>` section of your `pom.xml`:
+Ensure the following test dependencies are present in your `pom.xml`:
 
 ```xml
 <!-- Spring Boot Test Starter -->
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-test</artifactId>
+  <scope>test</scope>
 </dependency>
 
-<!-- JUnit Jupiter API and Engine -->
+<!-- JUnit 5 API and Engine -->
 <dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter-api</artifactId>
-    <version>5.9.2</version>
-    <scope>test</scope>
+  <groupId>org.junit.jupiter</groupId>
+  <artifactId>junit-jupiter-api</artifactId>
+  <version>5.9.2</version>
+  <scope>test</scope>
 </dependency>
 
 <dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter-engine</artifactId>
-    <version>5.9.2</version>
-    <scope>test</scope>
+  <groupId>org.junit.jupiter</groupId>
+  <artifactId>junit-jupiter-engine</artifactId>
+  <version>5.9.2</version>
+  <scope>test</scope>
 </dependency>
 
-<!-- (Optional) Enable older JUnit 4 test compatibility -->
+<!-- (Optional) JUnit 4 Compatibility -->
 <dependency>
-    <groupId>org.junit.vintage</groupId>
-    <artifactId>junit-vintage-engine</artifactId>
-    <version>5.9.2</version>
-    <scope>test</scope>
+  <groupId>org.junit.vintage</groupId>
+  <artifactId>junit-vintage-engine</artifactId>
+  <version>5.9.2</version>
+  <scope>test</scope>
 </dependency>
 ```
 
 ---
 
-## 💪 2. Add JaCoCo Plugin
+## 💪 2. JaCoCo Plugin Setup (Single Module)
 
-Include the **JaCoCo Maven plugin** inside the `<build><plugins>` section of your `pom.xml`:
+Add the following plugin block to the `<build><plugins>` section of your `pom.xml`:
 
 ```xml
 <plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.8.8</version>
-    <configuration>
-        <includes>
-            <include>com/igot/cb/*</include>
-            <include>com/igot/cb/**/*</include>
-        </includes>
-        <rules>
-            <rule>
-                <element>BUNDLE</element>
-                <limits>
-                    <limit>
-                        <counter>INSTRUCTION</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.30</minimum>
-                    </limit>
-                    <limit>
-                        <counter>BRANCH</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.20</minimum>
-                    </limit>
-                </limits>
-            </rule>
-        </rules>
-    </configuration>
-    <executions>
-        <!-- Attach agent before running tests -->
-        <execution>
-            <goals>
-                <goal>prepare-agent</goal>
-            </goals>
-        </execution>
-
-        <!-- Generate coverage report after tests -->
-        <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <goals>
-                <goal>report</goal>
-            </goals>
-        </execution>
-
-        <!-- Enforce coverage check (optional) -->
-        <execution>
-            <id>check</id>
-            <goals>
-                <goal>check</goal>
-            </goals>
-        </execution>
-    </executions>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.8.8</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>prepare-agent</goal>
+      </goals>
+    </execution>
+    <execution>
+      <id>report</id>
+      <phase>test</phase>
+      <goals>
+        <goal>report</goal>
+      </goals>
+    </execution>
+    <execution>
+      <id>check</id>
+      <goals>
+        <goal>check</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <includes>
+      <include>com/example/*</include>
+      <include>com/example/**/*</include>
+    </includes>
+    <rules>
+      <rule>
+        <element>BUNDLE</element>
+        <limits>
+          <limit>
+            <counter>INSTRUCTION</counter>
+            <value>COVEREDRATIO</value>
+            <minimum>0.30</minimum>
+          </limit>
+          <limit>
+            <counter>BRANCH</counter>
+            <value>COVEREDRATIO</value>
+            <minimum>0.20</minimum>
+          </limit>
+        </limits>
+      </rule>
+    </rules>
+  </configuration>
 </plugin>
 ```
 
 ---
 
-## 🧪 3. Run Tests and Generate Coverage
-
-Use the following Maven command to run the tests and generate the coverage report:
+## 🧪 3. Run Tests and Generate Report
 
 ```bash
 mvn clean test
 ```
 
-The report will be generated at:
+The coverage report will be available at:
 
 ```
 target/site/jacoco/index.html
 ```
 
-Open the HTML file in your browser to view class-wise coverage metrics.
+Open it in your browser to see class/method-level test coverage.
 
 ---
 
-## 📊 4. (Optional) Enforce Minimum Coverage Threshold
+## 📊 4. Minimum Coverage Enforcement
 
-The `<rules>` section in the plugin config will **fail the build** if the coverage is below the defined limits:
+The `<rules>` section in the plugin will fail the build if the defined thresholds are not met. You can update these values based on your quality gate.
+
+---
+
+## 🧩 5. Multi-Module Projects
+
+If your Maven project has multiple modules:
+
+### 🧱 Step 1: Add Plugin to Each Submodule
+
+In each submodule’s `pom.xml`, include:
 
 ```xml
-<limit>
-    <counter>INSTRUCTION</counter>
-    <value>COVEREDRATIO</value>
-    <minimum>0.30</minimum> <!-- 30% instruction coverage -->
-</limit>
-<limit>
-    <counter>BRANCH</counter>
-    <value>COVEREDRATIO</value>
-    <minimum>0.20</minimum> <!-- 20% branch coverage -->
-</limit>
+<plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.8.8</version>
+  <executions>
+    <execution>
+      <id>prepare-agent</id>
+      <goals>
+        <goal>prepare-agent</goal>
+      </goals>
+    </execution>
+    <execution>
+      <id>report</id>
+      <phase>verify</phase>
+      <goals>
+        <goal>report</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
 ```
 
-You can adjust these values as per your project's quality standards.
+### 📦 Step 2: (Optional) Parent Aggregated Report
+
+In the **parent `pom.xml`**, to generate a merged coverage report:
+
+```xml
+<plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.8.8</version>
+  <executions>
+    <execution>
+      <id>prepare-agent</id>
+      <goals>
+        <goal>prepare-agent</goal>
+      </goals>
+    </execution>
+    <execution>
+      <id>report-aggregate</id>
+      <phase>verify</phase>
+      <goals>
+        <goal>report-aggregate</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <outputDirectory>${project.build.directory}/site/jacoco-aggregate</outputDirectory>
+  </configuration>
+</plugin>
+```
+
+### ▶️ Step 3: Build Command
+
+```bash
+mvn clean verify
+```
+
+This will:
+
+* Generate coverage reports for each module in `target/site/jacoco/`
+* (If aggregation is configured) Generate a merged report in `target/site/jacoco-aggregate/`
 
 ---
 
-## 🤖 5. Notes
+## 📝 Notes
 
-* JaCoCo only reports on code that is executed during tests. Ensure meaningful test cases exist.
-* The `junit-vintage-engine` is optional but useful if you have legacy JUnit 4 tests.
-* You can integrate this with SonarQube for full coverage and quality analysis.
+* Ensure tests are meaningful and cover actual logic.
+* You can integrate the generated `.xml` report with SonarQube for centralized quality monitoring.
+* For GitHub Actions or Jenkins integration, refer to your CI configuration's test and coverage steps.
 
 ---
+
+✅ **You're now ready to track and enforce code coverage across your Java project!**
