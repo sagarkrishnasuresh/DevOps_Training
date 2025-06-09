@@ -109,6 +109,46 @@
 
 ---
 
+## 9. User and Group Management
+
+### User Management
+
+- `sudo adduser username`  
+  Creates a new user with a home directory and prompts for password setup and user info.
+
+- `sudo useradd username`  
+  Adds a new user without creating a home directory by default.
+
+- `sudo useradd -m username`  
+  Adds a user and creates a home directory manually.
+
+- `sudo passwd username`  
+  Sets or changes the password for an existing user.
+
+- `sudo deluser username`  
+  Deletes the specified user from the system.
+
+---
+
+### Group Management
+
+- `sudo groupadd groupname`  
+  Creates a new group.
+
+- `sudo groupdel groupname`  
+  Deletes an existing group.
+
+- `sudo usermod -aG groupname username`  
+  Adds an existing user to a specified group without removing them from other groups.
+
+- `groups username`  
+  Displays all groups that a user is a member of.
+
+- `id username`  
+  Shows UID, GID, and all group memberships for a user.
+  
+---
+
 ### Practice Tips
 1. Experiment with creating, moving, and deleting files to understand filesystem commands.
 2. Regularly check file permissions with `ls -l` before modifying them.
