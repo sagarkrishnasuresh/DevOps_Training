@@ -238,6 +238,16 @@ Shows system uptime, load average, and how long the system has been running.
 ## 5. Networking Commands
 
 ```bash
+curl ifconfig.me
+```
+Fetches your public IPv4 address using a simple HTTP request.
+
+```bash
+curl -6 ifconfig.me
+```
+Fetches your public IPv6 address using a simple HTTP request.
+
+```bash
 ping google.com
 ```
 
