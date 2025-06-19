@@ -49,12 +49,12 @@ It is ideal for setups where users are categorized into roles such as **admins**
 2. Make it executable:
 
    ```bash
-   chmod +x clean_user_groups.sh
+   chmod +x secure_config.sh
    ```
 3. Run the script with root privileges:
 
    ```bash
-   sudo ./clean_user_groups.sh
+   sudo ./secure_config.sh
    ```
 
 ---
