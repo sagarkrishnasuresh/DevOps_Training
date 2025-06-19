@@ -84,5 +84,18 @@ Response flows back to user
 * External access is centralized and managed by Kong for better control.
 
 ---
+### 🚀 Next Steps
+1. [Install Kong using Helm](./kong-helm-install.md)
 
-**Next Steps:** Install Kong, configure Ingress rules, and test routing through Kong to NGINX.
+
+2. Configure routing by creating
+
+[//]: # ([Kong Ingress rules]&#40;./kong-ingress-example.yaml&#41;)
+
+3. (Optional) Add plugins like
+
+[//]: # ([rate limiting, auth, or logging]&#40;./kong-plugin-examples.md&#41;)
+
+4. (Optional) Test and validate traffic flow with
+
+[//]: # ([curl or browser tests]&#40;./kong-test-guide.md&#41;)
