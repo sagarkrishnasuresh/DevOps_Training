@@ -1,4 +1,4 @@
-# Kubernetes Performance Analysis Commands
+# kubectl Commands
 
 This document provides essential commands to analyze the performance of running services in Kubernetes pods.
 
