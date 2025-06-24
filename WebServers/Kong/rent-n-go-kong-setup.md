@@ -29,16 +29,17 @@ User Request
    ↓
 Kong Gateway (Ingress Controller, LoadBalancer)
    ↓
-nginx-in (Internal ClusterIP or LoadBalancer)
+nginx-in (Internal ClusterIP)
    ↓
 nginx-rent (Reverse Proxy Pod)
    ↓
 Backend Microservices
 ```
 
-* Kong Gateway will now be exposed as the **LoadBalancer**.
-* NGINX service (`nginx-in`) becomes internal-only.
-* All routing, plugins, and security policies (auth, rate-limiting, etc.) handled by Kong.
+* Kong Gateway is deployed with `proxy.type=LoadBalancer`, exposing it publicly via an AWS ELB.
+* Kong acts as an **Ingress Controller** by processing Ingress resources assigned to it (`ingressClassName: kong`).
+* NGINX service (`nginx-in`) becomes internal-only (`ClusterIP`).
+* Kong applies plugins, routing, and security policies before forwarding traffic to internal NGINX.
 
 ---
 
@@ -51,19 +52,25 @@ Backend Microservices
 ### Step 2: Install Kong Gateway
 Refer to [kong-helm-install.md](./kong-helm-install.md) for Helm-based installation.
 
+> ✅ When `--set proxy.type=LoadBalancer` is used, Kubernetes will automatically provision an **AWS Elastic Load Balancer (ELB)** — **no manual AWS setup is needed**.
+
 ### Step 3: Validate Kong Installation
 - Confirm Kong pod is running in `kong` namespace.
-- Get LoadBalancer hostname (`EXTERNAL-IP`) from service `kong-kong-proxy`.
+- Run `kubectl get svc -n kong` and get `EXTERNAL-IP` for `kong-kong-proxy`.
 
 ### Step 4: Modify DNS or Access Flow
-- Update DNS or client-side configurations to route requests to Kong's LoadBalancer IP.
-- (Optional) Retain old NGINX LB for fallback during testing.
+- Point your domain in GoDaddy (or other DNS) to the Kong LoadBalancer hostname.
+- (Optional) Retain old NGINX LB for fallback testing if needed.
 
 ### Step 5: Update NGINX-in Service
-- Change `nginx-in` service type from `LoadBalancer` → `ClusterIP`.
-- This makes it accessible **only from inside the cluster** (Kong → NGINX-in).
+- Change `nginx-in` service type from `LoadBalancer` → `ClusterIP` using:
+
+```bash
+kubectl patch svc nginx-in -n rent-n-go -p '{"spec": {"type": "ClusterIP"}}'
+```
 
 ### Step 6: Create Ingress Rule in Kong
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -87,24 +94,26 @@ spec:
 ```
 
 ### Step 7: Test Routing
-- Access frontend or backend services using Kong LoadBalancer IP.
-- Example:
-  ```bash
-  curl -k https://<KONG_LB_HOSTNAME>/api/auth/login
-  ```
+- Access frontend/backend services via Kong LoadBalancer IP:
+```bash
+curl -k https://<KONG_LB_HOSTNAME>/api/auth/login
+```
 
 ### Step 8: (Optional) Add Plugins
-- Rate limiting
-- Basic or JWT auth
-- Logging and analytics
+- Rate limiting, Auth (Basic/JWT), Logging, CORS etc.
 
 ---
 
-## 📌 Notes
 
-- Kong LoadBalancer replaces NGINX LoadBalancer in external exposure.
-- Internal routing and microservice behavior remains unchanged.
-- Ingress objects define service paths to route from Kong → NGINX → Backend.
+## Why Kong is "Ingress Controller + LoadBalancer"
+
+Although NGINX is still acting as an internal reverse proxy (and Ingress Controller for previous rules), Kong is now:
+
+- Watching Ingress resources with `ingressClassName: kong`
+- Acting as public entry point via ELB
+- Applying authentication, rate limiting, logging, etc.
+
+Thus, Kong is effectively **Ingress Controller + LoadBalancer**.
 
 ---
 
@@ -114,6 +123,7 @@ spec:
 |-------------------------------------|------|
 | Kong installed using Helm           | ⬜   |
 | Kong LoadBalancer reachable         | ⬜   |
+| DNS pointed to Kong ELB             | ⬜   |
 | NGINX-in converted to ClusterIP     | ⬜   |
 | Kong Ingress configured             | ⬜   |
 | Routing verified                    | ⬜   |
