@@ -1,6 +1,6 @@
 # DevOps_Training
 
-## 1. Basic_Linux_Commands
+## 1. Linux_Commands
 ## 2. Linux_FileSystem
 ## 3. Docker
 ## 4. Ansible
