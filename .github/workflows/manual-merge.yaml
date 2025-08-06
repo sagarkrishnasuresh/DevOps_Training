@@ -1,0 +1,63 @@
+name: Secure Manual Merge (dev-sag → main)
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: "Enter merge commit message"
+        required: true
+        default: "Merging dev-sag into main"
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Determine token (PAT only if triggered by you)
+      - name: Determine token (Only for sagarkrishnasuresh)
+        id: auth
+        run: |
+          if [ "${{ github.actor }}" = "sagarkrishnasuresh" ]; then
+            echo "token=${{ secrets.PERSONAL_TOKEN }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "token=${{ secrets.GITHUB_TOKEN }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.auth.outputs.token }}
+
+      # Configure Git identity
+      - name: Configure Git identity
+        run: |
+          git config user.name "sagarkrishnasuresh"
+          git config user.email "sagarkrishnasuresh088@gmail.com"
+
+      # Ensure main is up to date
+      - name: Ensure main is up-to-date
+        run: |
+          git checkout main
+          git pull origin main
+
+      # Validate dev-sag is not behind main (safety check)
+      - name: Validate dev-sag branch status
+        run: |
+          git fetch origin dev-sag
+          if ! git merge-base --is-ancestor origin/main origin/dev-sag; then
+            echo "❌ dev-sag is behind main. Please rebase or update dev-sag before merging."
+            exit 1
+          fi
+
+      # Merge dev-sag into main (only you can execute this)
+      - name: Merge dev-sag into main
+        if: github.actor == 'sagarkrishnasuresh'
+        run: |
+          git merge origin/dev-sag -m "${{ github.event.inputs.commit_message }}"
+
+      # Push changes to main
+      - name: Push changes to main
+        if: github.actor == 'sagarkrishnasuresh'
+        run: git push origin main
