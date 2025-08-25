@@ -335,26 +335,7 @@ kubectl apply -f ~/sonarqube/postgres/postgres-netpol.yaml
 
 ---
 
-## 10) What’s Next (SonarQube wiring)
-
-* Create JDBC secret (after PG confirmed healthy):
-
-  ```bash
-  kubectl -n sonarqube create secret generic sonarqube-jdbc \
-    --from-literal=url='jdbc:postgresql://sonardb-postgresql.sonarqube.svc.cluster.local:5432/sonarqube' \
-    --from-literal=username="$(kubectl -n sonarqube get secret postgres-secrets -o jsonpath='{.data.SONAR_USER}' | base64 -d)" \
-    --from-literal=password="$(kubectl -n sonarqube get secret postgres-secrets -o jsonpath='{.data.SONAR_PASSWORD}' | base64 -d)"
-  ```
-
-  > If you enable TLS in Postgres later, add `?sslmode=require` to the JDBC URL.
-
-* Prepare `~/sonarqube/sonarqube/values-sonarqube.yaml` to reference that secret, plus monitoring passcode.
-
-* Install the SonarQube chart and verify readiness.
-
----
-
-## 11) Current State ✅
+## 10) Current State ✅
 
 * Namespace: **created and clean**
 * Secrets: **`postgres-secrets`**, **`sonarqube-monitoring-passcode`** (ready)
