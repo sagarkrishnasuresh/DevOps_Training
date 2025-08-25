@@ -346,3 +346,4 @@ kubectl apply -f ~/sonarqube/postgres/postgres-netpol.yaml
 * Database: `sonarqube` owned by `sonar` **verified**
 
 > You can now proceed to SonarQube installation with confidence that Postgres is healthy and reachable.
+Proceed to the [SonarQube Setup](./sonarqube-setup.md) to setup Sonarqube and wire PostgreSQL with it.
